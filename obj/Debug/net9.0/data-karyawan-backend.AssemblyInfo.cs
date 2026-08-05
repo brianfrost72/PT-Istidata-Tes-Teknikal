@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("data-karyawan-backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c4f8a2092163c63b91a2815b55193a48e5e281b")]
 [assembly: System.Reflection.AssemblyProductAttribute("data-karyawan-backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("data-karyawan-backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
