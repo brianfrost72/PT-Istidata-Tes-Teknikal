@@ -1,0 +1,61 @@
+@model List<data_karyawan_backend.Models.DataKaryawan>
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <label>NIK</label>
+
+        <select id="searchNik" class="form-select">
+
+            <option value="">-- Semua NIK --</option>
+
+            @foreach (var item in Model.Select(x => x.Nik).Distinct().OrderBy(x => x))
+            {
+                <option value="@item">@item</option>
+            }
+
+        </select>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <label>Nama</label>
+
+        <select id="searchNama" class="form-select">
+
+            <option value="">-- Semua Nama --</option>
+
+            @foreach (var item in Model.Select(x => x.Nama).Distinct().OrderBy(x => x))
+            {
+                <option value="@item">@item</option>
+            }
+
+        </select>
+
+    </div>
+
+    <div class="col-md-4 d-flex align-items-end">
+
+        <button id="btnSearch"
+                class="btn btn-primary me-2">
+
+            <i class="fa fa-search"></i>
+
+            Search
+
+        </button>
+
+        <button id="btnReset"
+                class="btn btn-secondary">
+
+            <i class="fa fa-times"></i>
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>

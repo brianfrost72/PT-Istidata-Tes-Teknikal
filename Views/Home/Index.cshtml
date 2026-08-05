@@ -1,0 +1,245 @@
+﻿@model List<data_karyawan_backend.Models.DataKaryawan>
+
+@{
+    ViewData["Title"] = "Data Karyawan - Brian Steven Petrus Gultom";
+}
+
+<div class="container mt-5">
+
+    <div class="card">
+
+        <div class="card-header">
+            Aplikasi Data Pribadi
+        </div>
+
+        <div class="card-body">
+
+            <partial name="_Search" model="Model" />
+
+            <hr />
+
+            <partial name="_Table" model="Model" />
+
+        </div>
+
+    </div>
+
+</div>
+
+<partial name="_ModalTambah" />
+
+<partial name="_ModalEdit" />
+
+<partial name="_ModalDetail" />
+
+<partial name="_ModalHapus" />
+
+@section Scripts {
+
+    <script>
+
+        const table = $("#tblData").DataTable({
+
+            searching: false,
+            ordering: false,
+            info: true,
+            paging: true,
+            lengthChange: false,
+            pageLength: 5,
+
+            language: {
+                paginate: {
+                    previous: '<i class="fa-solid fa-chevron-left"></i>',
+                    next: '<i class="fa-solid fa-chevron-right"></i>'
+                }
+            }
+
+        });
+
+        $("#entriesSelect").change(function () {
+
+            table.page.len($(this).val()).draw();
+
+        });
+
+        $("#tableInfo").append($(".dataTables_info"));
+
+        $("#tablePagination").append($(".dataTables_paginate"));
+
+
+        //======================================
+        // HITUNG UMUR (MODAL TAMBAH)
+        //======================================
+
+        $("#tanggal_lahir").change(function () {
+
+            hitungUmur($(this), $("#umur"));
+
+        });
+
+
+        //======================================
+        // HITUNG UMUR (MODAL EDIT)
+        //======================================
+
+        $("#editTanggalLahir").change(function () {
+
+            hitungUmur($(this), $("#editUmur"));
+
+        });
+
+        function hitungUmur(input, output) {
+
+            const birth = new Date(input.val());
+
+            const today = new Date();
+
+            let age = today.getFullYear() - birth.getFullYear();
+
+            const month = today.getMonth() - birth.getMonth();
+
+            if (month < 0 || (month === 0 && today.getDate() < birth.getDate())) {
+
+                age--;
+
+            }
+
+            output.val(age);
+
+        }
+
+
+
+        //======================================
+        // DETAIL
+        //======================================
+
+        $(document).on("click", ".btnDetail", function () {
+
+            $("#detailNik").text($(this).data("nik"));
+
+            $("#detailNama").text($(this).data("nama"));
+
+            $("#detailTanggalLahir").text($(this).data("tanggallahir"));
+
+            $("#detailJenisKelamin").text($(this).data("gender"));
+
+            $("#detailAlamat").text($(this).data("alamat"));
+
+            $("#detailNegara").text($(this).data("negara"));
+
+        });
+
+
+
+        //======================================
+        // EDIT
+        //======================================
+
+        $(document).on("click", ".btnEdit", function () {
+
+            $("#editId").val($(this).data("id"));
+
+            $("#editNik").val($(this).data("nik"));
+
+            $("#editNama").val($(this).data("nama"));
+
+            $("#editTanggalLahir").val($(this).data("tanggallahir"));
+
+            $("#editAlamat").val($(this).data("alamat"));
+
+            $("#editNegara").val($(this).data("negara"));
+
+            let gender = $(this).data("gender");
+
+            $("input[name='JenisKelamin'][value='" + gender + "']")
+                .prop("checked", true);
+
+            hitungUmur($("#editTanggalLahir"), $("#editUmur"));
+
+        });
+
+
+
+        //======================================
+        // DELETE
+        //======================================
+
+        $(document).on("click", ".btnDelete", function () {
+
+            $("#deleteId").val($(this).data("id"));
+
+            $("#deleteNama").text($(this).data("nama"));
+
+        });
+
+        //========================
+        // SELECT2
+        //========================
+
+        $("#searchNik").select2({
+
+            placeholder: "Pilih NIK",
+            allowClear: true,
+            width: "100%"
+
+        });
+
+        $("#searchNama").select2({
+
+            placeholder: "Pilih Nama",
+            allowClear: true,
+            width: "100%"
+
+        });
+
+        //========================
+        // SEARCH
+        //========================
+        $("#btnSearch").click(function () {
+
+            let nik = $("#searchNik").val().toString().toLowerCase();
+
+            let nama = $("#searchNama").val().toString().toLowerCase();
+
+            table.rows().every(function () {
+
+                let row = $(this.node());
+
+                let nikRow = row.find("td:eq(1)").text().toLowerCase();
+
+                let namaRow = row.find("td:eq(2)").text().toLowerCase();
+
+                let tampil = true;
+
+                if (nik !== "" && nikRow !== nik)
+                    tampil = false;
+
+                if (nama !== "" && namaRow !== nama)
+                    tampil = false;
+
+                row.toggle(tampil);
+
+            });
+
+        });
+
+        //========================
+        // RESET
+        //========================
+        $("#btnReset").click(function () {
+
+            $("#searchNik").val(null).trigger("change");
+
+            $("#searchNama").val(null).trigger("change");
+
+            table.rows().every(function () {
+
+                $(this.node()).show();
+
+            });
+
+        });
+    </script>
+
+}

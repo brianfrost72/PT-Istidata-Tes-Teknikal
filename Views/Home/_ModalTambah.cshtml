@@ -1,0 +1,106 @@
+@using data_karyawan_backend.Models
+
+<!-- Modal Tambah -->
+<div class="modal fade" id="modalTambah" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fa-solid fa-user-plus me-2"></i>
+                    Tambah Data Pribadi
+                </h5>
+
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="/Home/Create" method="post" id="formTambah">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">
+                                NIK <span class="text-danger">*</span>
+                            </label>
+
+                            <input type="text" class="form-control" id="nik" name="Nik" maxlength="16"
+                                   inputmode="numeric" pattern="[0-9]{16}" placeholder="Masukkan NIK" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label"> Nama Lengkap </label>
+
+                            <input type="text" class="form-control" id="nama" name="Nama" placeholder="Masukkan Nama" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label"> Tanggal Lahir </label>
+
+                            <input type="date" class="form-control" id="tanggal_lahir" name="TanggalLahir" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label"> Umur </label>
+
+                            <input type="number" class="form-control" id="umur" readonly />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label"> Jenis Kelamin </label>
+
+                            <div class="mt-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="JenisKelamin" value="Laki-laki"
+                                           checked />
+
+                                    <label class="form-check-label"> Laki-Laki </label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="JenisKelamin"
+                                           value="Perempuan" />
+
+                                    <label class="form-check-label"> Perempuan </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label"> Negara </label>
+
+                            <select class="form-select" id="negara" name="IdNegara">
+
+                                <option value="">Pilih Negara</option>
+
+                                @foreach (Negara item in ViewBag.Negara)
+                                {
+                                    <option value="@item.Id">
+                                        @item.Negara1
+                                    </option>
+                                }
+
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label"> Alamat </label>
+
+                            <textarea class="form-control" rows="4" id="alamat" name="Alamat"
+                                      placeholder="Masukkan Alamat"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark"></i>
+                        Batal
+                    </button>
+
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

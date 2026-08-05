@@ -1,0 +1,119 @@
+@model List<data_karyawan_backend.Models.DataKaryawan>
+
+<div class="table-toolbar d-flex justify-content-between align-items-center mb-3">
+    <div id="showEntries">
+        <label class="entries-label">
+            Show
+
+            <select id="entriesSelect" class="form-select form-select-sm">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+            </select>
+        </label>
+    </div>
+
+    <button class="btn btn-success" id="btnTambah" data-bs-toggle="modal" data-bs-target="#modalTambah">
+        <i class="fa-solid fa-plus"></i>
+        Tambah
+    </button>
+</div>
+
+<table id="tblData" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>NIK</th>
+            <th>Nama</th>
+            <th>Umur</th>
+            <th>Tanggal Lahir</th>
+            <th>Jenis Kelamin</th>
+            <th>Alamat</th>
+            <th>Negara</th>
+            <th class="text-center">Aksi</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @{
+            int no = 1;
+        }
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@no</td>
+                <td>@item.Nik</td>
+                <td>@item.Nama</td>
+                <td>
+                    @{
+                        var today = DateTime.Today;
+
+                        var umur = today.Year - item.TanggalLahir.Year;
+
+                        if (item.TanggalLahir.ToDateTime(TimeOnly.MinValue).Date > today.AddYears(-umur))
+                        {
+                            umur--;
+                        }
+                    }
+
+                    @umur Tahun
+                </td>
+
+                <td>@item.TanggalLahir.ToString("dd-MM-yyyy")</td>
+
+                <td>@item.JenisKelamin</td>
+
+                <td>@item.Alamat</td>
+
+                <td>
+                    @{
+                        var negara = ((List<data_karyawan_backend.Models.Negara>)ViewBag.Negara)
+                            .FirstOrDefault(x => x.Id == item.IdNegara);
+
+                        @(negara?.Negara1 ?? "-")
+                    }
+                </td>
+
+                <td class="text-center">
+
+                    <button class="btn btn-info btn-sm btnDetail" data-id="@item.Id" data-nik="@item.Nik"
+                            data-nama="@item.Nama" data-tanggallahir="@item.TanggalLahir.ToString("yyyy-MM-dd")"
+                            data-gender="@item.JenisKelamin" data-alamat="@item.Alamat" data-negara="@negara?.Negara1"
+                            data-bs-toggle="modal" data-bs-target="#modalDetail">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                    </button>
+
+                    <button class="btn btn-warning btn-sm btnEdit" data-id="@item.Id" data-nik="@item.Nik"
+                            data-nama="@item.Nama" data-tanggallahir="@item.TanggalLahir.ToString("yyyy-MM-dd")"
+                            data-gender="@item.JenisKelamin" data-alamat="@item.Alamat" data-negara="@item.IdNegara"
+                            data-bs-toggle="modal" data-bs-target="#modalEdit">
+
+                        <i class="fa-solid fa-pen"></i>
+
+                    </button>
+
+                    <button class="btn btn-danger btn-sm btnDelete" data-id="@item.Id" data-nama="@item.Nama"
+                            data-bs-toggle="modal" data-bs-target="#modalHapus">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </td>
+            </tr>
+
+            no++;
+        }
+
+    </tbody>
+</table>
+<div class="table-footer d-flex justify-content-between align-items-center mt-3">
+    <div id="tableInfo"></div>
+
+    <div id="tablePagination"></div>
+</div>

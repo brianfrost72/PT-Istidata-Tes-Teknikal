@@ -1,0 +1,71 @@
+<div class="modal fade" id="modalHapus">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+
+                <h5>
+
+                    Hapus Data
+
+                </h5>
+
+            </div>
+
+            <form asp-controller="Home" asp-action="Delete" method="post">
+
+                <input type="hidden" id="deleteId" name="Id">
+
+                <div class="modal-body text-center">
+
+                    <i class="fa-solid fa-circle-exclamation
+                    text-danger
+                    fa-4x
+                    mb-3"></i>
+
+                    <h5>
+
+                        Apakah Anda yakin ingin menghapus data berikut?
+
+                    </h5>
+
+                    <h4 id="deleteNama" class="fw-bold
+                        text-primary
+                        mt-3">
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Data yang dihapus tidak dapat dikembalikan.
+
+                    </p>
+
+                </div>
+
+                <div class="modal-footer justify-content-center">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                        Batal
+
+                    </button>
+
+                    <button type="submit" class="btn btn-danger">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                        Ya, Hapus
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
