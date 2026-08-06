@@ -1,35 +1,34 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using data_karyawan_backend.Data;
 using data_karyawan_backend.Models;
+using data_karyawan_backend.Repositories;
 
 namespace data_karyawan_backend.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly AppDbContext _context;
+    private readonly IDataKaryawanRepository _karyawanRepository;
+    private readonly INegaraRepository _negaraRepository;
 
-    public HomeController(AppDbContext context)
+    public HomeController(
+        IDataKaryawanRepository karyawanRepository,
+        INegaraRepository negaraRepository)
     {
-        _context = context;
+        _karyawanRepository = karyawanRepository;
+        _negaraRepository = negaraRepository;
     }
 
     //==========================
     // INDEX
     //==========================
     public IActionResult Index()
-{
-    ViewBag.Negara = _context.Negaras
-        .OrderBy(x => x.Negara1)
-        .ToList();
+    {
+        ViewBag.Negara = _negaraRepository.GetAll();
 
-    var data = _context.DataKaryawans
-        .OrderByDescending(x => x.Id)
-        .ToList();
+        var data = _karyawanRepository.GetAll();
 
-    return View(data);
-}
+        return View(data);
+    }
 
     //==========================
     // DETAIL
@@ -37,8 +36,7 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult GetById(int id)
     {
-        var data = _context.DataKaryawans
-            .FirstOrDefault(x => x.Id == id);
+        var data = _karyawanRepository.GetById(id);
 
         if (data == null)
             return NotFound();
@@ -56,9 +54,7 @@ public class HomeController : Controller
         {
             model.DibuatTgl = DateTime.Now;
 
-            _context.DataKaryawans.Add(model);
-
-            _context.SaveChanges();
+            _karyawanRepository.Add(model);
 
             return RedirectToAction(nameof(Index));
         }
@@ -76,20 +72,7 @@ public class HomeController : Controller
     {
         try
         {
-            var data = _context.DataKaryawans
-                .FirstOrDefault(x => x.Id == model.Id);
-
-            if (data == null)
-                return NotFound();
-
-            data.Nik = model.Nik;
-            data.Nama = model.Nama;
-            data.TanggalLahir = model.TanggalLahir;
-            data.JenisKelamin = model.JenisKelamin;
-            data.Alamat = model.Alamat;
-            data.IdNegara = model.IdNegara;
-
-            _context.SaveChanges();
+            _karyawanRepository.Update(model);
 
             return RedirectToAction(nameof(Index));
         }
@@ -107,15 +90,7 @@ public class HomeController : Controller
     {
         try
         {
-            var data = _context.DataKaryawans
-                .FirstOrDefault(x => x.Id == id);
-
-            if (data == null)
-                return NotFound();
-
-            _context.DataKaryawans.Remove(data);
-
-            _context.SaveChanges();
+            _karyawanRepository.Delete(id);
 
             return RedirectToAction(nameof(Index));
         }
@@ -130,12 +105,15 @@ public class HomeController : Controller
         return View();
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [ResponseCache(Duration = 0,
+        Location = ResponseCacheLocation.None,
+        NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel
         {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            RequestId = Activity.Current?.Id ??
+                        HttpContext.TraceIdentifier
         });
     }
 }

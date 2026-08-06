@@ -1,9 +1,12 @@
 using data_karyawan_backend.Data;
 using Microsoft.EntityFrameworkCore;
+using data_karyawan_backend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IDataKaryawanRepository, DataKaryawanRepository>();
+builder.Services.AddScoped<INegaraRepository, NegaraRepository>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

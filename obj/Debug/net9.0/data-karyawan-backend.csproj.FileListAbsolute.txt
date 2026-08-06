@@ -185,3 +185,4 @@ C:\xampp\htdocs\data-karyawan-backend\obj\Debug\net9.0\refint\data-karyawan-back
 C:\xampp\htdocs\data-karyawan-backend\obj\Debug\net9.0\data-karyawan-backend.pdb
 C:\xampp\htdocs\data-karyawan-backend\obj\Debug\net9.0\data-karyawan-backend.genruntimeconfig.cache
 C:\xampp\htdocs\data-karyawan-backend\obj\Debug\net9.0\ref\data-karyawan-backend.dll
+C:\xampp\htdocs\data-karyawan-backend\obj\Debug\net9.0\data-karyawan-backend.sourcelink.json
